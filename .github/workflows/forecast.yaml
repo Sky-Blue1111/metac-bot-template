@@ -1,0 +1,102 @@
+name: Forecast (FutureEval Fall 2026 + MiniBench + Market Pulse)
+
+# Runner only: the bot's code lives in a private repository and is checked out at run
+# time with a read-only token (secret CORE_REPO_TOKEN). Logs print question ids, counts
+# and error types only.
+#
+# Primary trigger: an external scheduler calls `workflow_dispatch` every 10 minutes.
+# The cron below is a backup only. Overlapping triggers queue behind the concurrency
+# group; a "cancelled" duplicate is normal.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "7,27,47 * * * *"
+
+concurrency:
+  group: forecast
+  cancel-in-progress: false
+
+permissions:
+  contents: write # only to force-push status.json (counts only) to the orphan `status` branch
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Check out this runner repository (for the status branch)
+        uses: actions/checkout@v4
+
+      - name: Check out the bot
+        uses: actions/checkout@v4
+        with:
+          repository: Sky-Blue1111/forecast-bot-core
+          ref: main
+          token: ${{ secrets.CORE_REPO_TOKEN }}
+          path: core
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: core/requirements.txt
+
+      - name: Fetch previous status.json (best effort)
+        run: |
+          git fetch --depth=1 origin status:refs/remotes/origin/status 2>/dev/null || true
+          git cat-file -p refs/remotes/origin/status:status.json > prev_status.json 2>/dev/null || echo '{}' > prev_status.json
+
+      - name: Precheck
+        id: precheck
+        continue-on-error: true
+        working-directory: core
+        env:
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
+        run: python -m bot.precheck --status-in ../prev_status.json --status-out ../status.json
+
+      - name: Install pinned dependencies
+        if: steps.precheck.outputs.has_work == 'true' && steps.precheck.outputs.ended != 'true'
+        run: python -m pip install --quiet -r core/requirements.txt
+
+      # 45 < the job's 55 minutes: if this step is killed, the publish step below still runs
+      # and pushes the mid-run checkpoint (the question being worked on is counted as failed)
+      - name: Forecast
+        if: steps.precheck.outputs.has_work == 'true' && steps.precheck.outputs.ended != 'true'
+        timeout-minutes: 45
+        working-directory: core
+        env:
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
+          ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }} # optional; empty = Tavily keyless mode
+        run: python main.py --mode tournament --status-in ../prev_status.json --status-out ../status.json
+
+      # status.json holds counts only (validated against a schema before it is written). The
+      # branch is rewritten as a single orphan commit every run so it never grows.
+      - name: Publish status.json to the status branch
+        if: always()
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          if [ ! -s status.json ]; then echo "no status.json to publish"; exit 0; fi
+          git config user.name "futureeval-bot[actions]"
+          git config user.email "actions@users.noreply.github.com"
+          blob=$(git hash-object -w status.json)
+          tree=$(printf '100644 blob %s\tstatus.json\n' "$blob" | git mktree)
+          commit=$(git commit-tree "$tree" -m "status $(date -u +%Y-%m-%dT%H:%M:%SZ)")
+          git push --force origin "$commit:refs/heads/status"
+
+      - name: Fail the run if the precheck failed
+        if: steps.precheck.outcome == 'failure' && steps.precheck.outputs.ended != 'true'
+        run: |
+          echo "precheck exited non-zero (missing token or API unreachable); see the precheck step"
+          exit 1
+
+      - name: Stop when the tournament has ended
+        if: steps.precheck.outputs.ended == 'true'
+        run: |
+          echo "The primary tournament has ended. Update the ids before running again."
+          exit 3
