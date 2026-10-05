@@ -18,6 +18,7 @@ concurrency:
 
 permissions:
   contents: read
+  id-token: write # keyless Google Cloud sign-in (Vertex AI): GitHub's OIDC token, no stored key
 
 jobs:
   test_questions:
@@ -41,6 +42,17 @@ jobs:
       - name: Install pinned dependencies
         run: python -m pip install --quiet -r requirements.txt
 
+      # Vertex AI (the owner's Google Cloud free-trial credit) through Workload Identity
+      # Federation: only runs of this repository may sign in. On failure the bot uses the
+      # free tier.
+      - name: Google Cloud sign-in for Vertex AI (keyless)
+        if: vars.GCP_WIF_PROVIDER != ''
+        continue-on-error: true
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+
       - name: Forecast on the bot-testing-area tournament
         timeout-minutes: 45
         env:
@@ -50,6 +62,7 @@ jobs:
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
           ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }} # optional; empty = Tavily keyless mode
+          BOT_VERTEX_CONFIGURED: ${{ vars.GCP_WIF_PROVIDER != '' && '1' || '' }}
         run: python main.py --mode test_questions --status-out status_test.json
 
       - name: Keep the run's counts (no forecast content)

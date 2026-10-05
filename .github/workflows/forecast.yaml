@@ -18,6 +18,7 @@ concurrency:
 
 permissions:
   contents: write # only to force-push status.json (counts only) to the orphan `status` branch
+  id-token: write # keyless Google Cloud sign-in (Vertex AI): GitHub's OIDC token, no stored key
 
 jobs:
   forecast:
@@ -53,11 +54,24 @@ jobs:
         working-directory: core
         env:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
+          BOT_VERTEX_CONFIGURED: ${{ vars.GCP_WIF_PROVIDER != '' && '1' || '' }}
         run: python -m bot.precheck --status-in ../prev_status.json --status-out ../status.json
 
       - name: Install pinned dependencies
         if: steps.precheck.outputs.has_work == 'true' && steps.precheck.outputs.ended != 'true'
         run: python -m pip install --quiet -r core/requirements.txt
+
+      # Vertex AI (the owner's Google Cloud free-trial credit) through Workload Identity
+      # Federation: only runs of this repository may sign in; no key is stored anywhere.
+      # On failure the bot answers on the free tier. The publish step below pushes
+      # status.json alone, never the sign-in's credentials file.
+      - name: Google Cloud sign-in for Vertex AI (keyless)
+        if: steps.precheck.outputs.has_work == 'true' && steps.precheck.outputs.ended != 'true' && vars.GCP_WIF_PROVIDER != ''
+        continue-on-error: true
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       # 45 < the job's 55 minutes: if this step is killed, the publish step below still runs
       # and pushes the mid-run checkpoint (the question being worked on is counted as failed)
@@ -72,6 +86,7 @@ jobs:
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
           ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }} # optional; empty = Tavily keyless mode
+          BOT_VERTEX_CONFIGURED: ${{ vars.GCP_WIF_PROVIDER != '' && '1' || '' }}
         run: python main.py --mode tournament --status-in ../prev_status.json --status-out ../status.json
 
       # status.json holds counts only (validated against a schema before it is written). The
