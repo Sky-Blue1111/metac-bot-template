@@ -11,6 +11,10 @@ on:
         description: "Branch of the bot to test"
         required: false
         default: main
+      free_tier:
+        description: "Also use the free Gemini tier (off = Vertex only, the day's free quota stays for the tournaments)"
+        required: false
+        default: "on"
 
 concurrency:
   group: forecast
@@ -58,7 +62,7 @@ jobs:
         env:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ inputs.free_tier != 'off' && secrets.GEMINI_API_KEY || '' }}
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
           ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }} # optional; empty = Tavily keyless mode
