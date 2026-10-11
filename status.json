@@ -1,0 +1,166 @@
+{
+ "alerts_24h": {},
+ "bot_version": "1.17.1",
+ "credit": {
+  "source": "none"
+ },
+ "free_tier": {
+  "day": "2026-10-10",
+  "pressure": 0
+ },
+ "retry": {
+  "45895": {
+   "fails": 10,
+   "last": "2026-10-05T04:12:01Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45896": {
+   "fails": 6,
+   "last": "2026-10-05T04:22:07Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45897": {
+   "fails": 9,
+   "last": "2026-10-05T05:22:00Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45898": {
+   "fails": 3,
+   "last": "2026-10-05T05:32:06Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45899": {
+   "fails": 1,
+   "last": "2026-10-05T05:42:01Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45900": {
+   "fails": 2,
+   "last": "2026-10-05T06:02:16Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45901": {
+   "fails": 3,
+   "last": "2026-10-05T06:32:36Z",
+   "reason": "TooFewValidSamples"
+  },
+  "45902": {
+   "fails": 2,
+   "last": "2026-10-05T06:52:02Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45903": {
+   "fails": 2,
+   "last": "2026-10-05T07:16:24Z",
+   "reason": "LlmRouteExhausted_Unavailable"
+  },
+  "45905": {
+   "fails": 8,
+   "last": "2026-10-05T08:32:06Z",
+   "reason": "LlmRouteExhausted_Unavailable"
+  },
+  "45909": {
+   "fails": 8,
+   "last": "2026-10-05T09:02:11Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45910": {
+   "fails": 6,
+   "last": "2026-10-05T09:52:05Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45911": {
+   "fails": 4,
+   "last": "2026-10-05T10:34:20Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45912": {
+   "fails": 1,
+   "last": "2026-10-05T08:10:28Z",
+   "reason": "TooFewValidSamples"
+  },
+  "45913": {
+   "fails": 2,
+   "last": "2026-10-05T10:52:00Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45914": {
+   "fails": 8,
+   "last": "2026-10-05T12:22:20Z",
+   "reason": "LlmRouteExhausted_Unavailable"
+  },
+  "45915": {
+   "fails": 7,
+   "last": "2026-10-05T13:02:50Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  }
+ },
+ "run": {
+  "alerts": {},
+  "already_forecasted": 1,
+  "answered": 0,
+  "deferred": 0,
+  "deferred_by_reason": {},
+  "duration_seconds": 3.6,
+  "eligible": 0,
+  "errors_by_type": {},
+  "exit_code": 0,
+  "finished_at": "2026-10-11T04:20:42Z",
+  "kind": "precheck",
+  "mode": "tournament",
+  "notes": {},
+  "seen": 1,
+  "skipped": 0,
+  "skips_by_reason": {},
+  "started_at": "2026-10-11T04:20:39Z",
+  "tier": "none",
+  "unknown_state": 0
+ },
+ "schema": 1,
+ "today": {
+  "answered": {
+   "33121": [
+    46004,
+    46003,
+    45884,
+    45956
+   ]
+  },
+  "day": "2026-10-10",
+  "deferred": {},
+  "skipped": {}
+ },
+ "totals": {
+  "answered": 67,
+  "last_answer_at": "2026-10-11T03:28:15Z",
+  "last_success_at": "2026-10-11T03:28:15Z",
+  "runs": 121,
+  "skipped": 881
+ },
+ "tournaments": {
+  "33121": {
+   "answered": 0,
+   "eligible": 0,
+   "end_date": "2027-01-06T00:00:00Z",
+   "end_state": "ok",
+   "seen": 1,
+   "skipped": 0
+  },
+  "minibench": {
+   "answered": 0,
+   "eligible": 0,
+   "end_date": "2026-10-12T19:16:44Z",
+   "end_state": "ok",
+   "seen": 0,
+   "skipped": 0
+  }
+ },
+ "updated_at": "2026-10-11T04:20:42Z",
+ "vertex": {
+  "calls_today": 28,
+  "day": "2026-10-10",
+  "grounded_today": 8,
+  "spent_today_usd": 1.4205,
+  "spent_total_usd": 10.9715
+ }
+}
