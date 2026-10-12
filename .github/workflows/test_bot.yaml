@@ -66,6 +66,7 @@ jobs:
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
           ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }} # optional; empty = Tavily keyless mode
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # optional; MiniBench's Claude samples (bot 1.18.0+); empty = off
           BOT_VERTEX_CONFIGURED: ${{ vars.GCP_WIF_PROVIDER != '' && '1' || '' }}
         run: python main.py --mode test_questions --status-out status_test.json
 

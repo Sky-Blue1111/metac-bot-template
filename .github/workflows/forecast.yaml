@@ -4,7 +4,7 @@ name: Forecast (FutureEval Fall 2026 + MiniBench + Market Pulse)
 # time with a read-only token (secret CORE_REPO_TOKEN). Logs print question ids, counts
 # and error types only.
 #
-# Primary trigger: an external scheduler calls `workflow_dispatch` every 10 minutes.
+# Primary trigger: an external scheduler calls `workflow_dispatch` every 30 minutes.
 # The cron below is a backup only. Overlapping triggers queue behind the concurrency
 # group; a "cancelled" duplicate is normal.
 on:
@@ -86,6 +86,7 @@ jobs:
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
           ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }} # optional; empty = Tavily keyless mode
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # optional; MiniBench's Claude samples (bot 1.18.0+); empty = off
           BOT_VERTEX_CONFIGURED: ${{ vars.GCP_WIF_PROVIDER != '' && '1' || '' }}
         run: python main.py --mode tournament --status-in ../prev_status.json --status-out ../status.json
 
