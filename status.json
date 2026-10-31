@@ -1,0 +1,233 @@
+{
+ "alerts_24h": {},
+ "anthropic": {
+  "calls_total": 116,
+  "spent_total_usd": 23.5333
+ },
+ "bot_version": "1.18.0",
+ "credit": {
+  "source": "none"
+ },
+ "free_tier": {
+  "day": "2026-10-31",
+  "pressure": 0
+ },
+ "minibench_round": {
+  "answered": [
+   46123,
+   46124,
+   46125,
+   46126,
+   46127,
+   46128,
+   46129,
+   46130,
+   46131,
+   46132,
+   46133,
+   46134,
+   46135,
+   46136,
+   46137,
+   46138,
+   46139,
+   46140,
+   46141,
+   46142,
+   46143,
+   46144,
+   46145,
+   46146,
+   46147,
+   46148,
+   46149,
+   46150,
+   46151,
+   46152,
+   46153,
+   46154,
+   46155,
+   46156,
+   46157,
+   46158,
+   46159,
+   46160,
+   46161,
+   46162,
+   46163,
+   46164,
+   46165,
+   46166,
+   46167,
+   46168,
+   46169,
+   46170,
+   46171,
+   46172,
+   46173,
+   46174,
+   46175,
+   46176,
+   46177,
+   46178,
+   46179,
+   46180,
+   46181,
+   46182
+  ],
+  "deferred": [],
+  "skipped": [
+   46130,
+   46137
+  ],
+  "start": "2026-10-19T00:00:00Z"
+ },
+ "retry": {
+  "45895": {
+   "fails": 10,
+   "last": "2026-10-05T04:12:01Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45896": {
+   "fails": 6,
+   "last": "2026-10-05T04:22:07Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45897": {
+   "fails": 9,
+   "last": "2026-10-05T05:22:00Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45898": {
+   "fails": 3,
+   "last": "2026-10-05T05:32:06Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45899": {
+   "fails": 1,
+   "last": "2026-10-05T05:42:01Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45900": {
+   "fails": 2,
+   "last": "2026-10-05T06:02:16Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45901": {
+   "fails": 3,
+   "last": "2026-10-05T06:32:36Z",
+   "reason": "TooFewValidSamples"
+  },
+  "45902": {
+   "fails": 2,
+   "last": "2026-10-05T06:52:02Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45903": {
+   "fails": 2,
+   "last": "2026-10-05T07:16:24Z",
+   "reason": "LlmRouteExhausted_Unavailable"
+  },
+  "45905": {
+   "fails": 8,
+   "last": "2026-10-05T08:32:06Z",
+   "reason": "LlmRouteExhausted_Unavailable"
+  },
+  "45909": {
+   "fails": 8,
+   "last": "2026-10-05T09:02:11Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45910": {
+   "fails": 6,
+   "last": "2026-10-05T09:52:05Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45911": {
+   "fails": 4,
+   "last": "2026-10-05T10:34:20Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45912": {
+   "fails": 1,
+   "last": "2026-10-05T08:10:28Z",
+   "reason": "TooFewValidSamples"
+  },
+  "45913": {
+   "fails": 2,
+   "last": "2026-10-05T10:52:00Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  },
+  "45914": {
+   "fails": 8,
+   "last": "2026-10-05T12:22:20Z",
+   "reason": "LlmRouteExhausted_Unavailable"
+  },
+  "45915": {
+   "fails": 7,
+   "last": "2026-10-05T13:02:50Z",
+   "reason": "LlmRouteExhausted_RateLimit"
+  }
+ },
+ "run": {
+  "alerts": {},
+  "already_forecasted": 0,
+  "answered": 0,
+  "deferred": 0,
+  "deferred_by_reason": {},
+  "duration_seconds": 2.1,
+  "eligible": 0,
+  "errors_by_type": {},
+  "exit_code": 0,
+  "finished_at": "2026-10-31T11:33:56Z",
+  "kind": "precheck",
+  "mode": "tournament",
+  "notes": {},
+  "seen": 0,
+  "skipped": 0,
+  "skips_by_reason": {},
+  "started_at": "2026-10-31T11:33:54Z",
+  "tier": "none",
+  "unknown_state": 0
+ },
+ "schema": 1,
+ "today": {
+  "answered": {},
+  "day": "2026-10-31",
+  "deferred": {},
+  "skipped": {}
+ },
+ "totals": {
+  "answered": 214,
+  "last_answer_at": "2026-10-31T03:08:49Z",
+  "last_success_at": "2026-10-31T03:08:49Z",
+  "runs": 233,
+  "skipped": 883
+ },
+ "tournaments": {
+  "33121": {
+   "answered": 0,
+   "eligible": 0,
+   "end_date": "2027-01-06T00:00:00Z",
+   "end_state": "ok",
+   "seen": 0,
+   "skipped": 0
+  },
+  "minibench": {
+   "answered": 0,
+   "eligible": 0,
+   "end_date": "2026-11-04T01:41:51Z",
+   "end_state": "ok",
+   "seen": 0,
+   "skipped": 0
+  }
+ },
+ "updated_at": "2026-10-31T11:33:56Z",
+ "vertex": {
+  "calls_today": 0,
+  "day": "2026-10-31",
+  "grounded_today": 0,
+  "spent_today_usd": 0.0,
+  "spent_total_usd": 59.8145
+ }
+}
